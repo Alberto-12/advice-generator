@@ -5,14 +5,14 @@ import Pattern from '../images/pattern-divider-mobile.svg'
 const Generator = () => {
     const [advice, setAdvice] = useState("");
     const [adviceNumber, setAdviceNumber] = useState(Math.floor(Math.random() * 401) + 1);
-    const [error, setError] = useState(null);
+    /*const [error, setError] = useState(null);*/
 
     const fetchAdvice = async () => {
         try {
         const response = await fetch(`https://api.adviceslip.com/advice/${adviceNumber}`);
         const data = await response.json();
-        setAdvice(data.slip.advice);
-        setError(null);
+        data.slip === undefined ? setAdvice(data.message.text): setAdvice(data.slip.advice);
+        /*setError(null);*/
     } catch (error) {
         console.error(error);
     }
@@ -20,7 +20,6 @@ const Generator = () => {
 
     useEffect(()=> {
         fetchAdvice();
-
     }, [adviceNumber,fetchAdvice])
    
 
